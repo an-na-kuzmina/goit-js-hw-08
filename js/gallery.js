@@ -45,3 +45,31 @@ const images = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+const gallery = document.querySelector('ul.gallery');
+
+const markup = images
+  .map(
+    ({ preview, original, description }) => `<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
+    <img
+      class="gallery-image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
+</li>`
+  )
+  .join('');
+
+gallery.insertAdjacentHTML('beforeend', markup);
+
+gallery.addEventListener('click', handleClick);
+
+function handleClick(event) {
+  event.preventDefault();
+  if (event.currentTarget !== event.target) {
+    const instance = basicLightbox.create(`<img src="${event.target.dataset.source}">`).show();
+  }
+}
